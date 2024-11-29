@@ -1,2 +1,3 @@
-# advent-of-code-2024
-My solutions to Advent of Code 2024 in Java
+# Advent Of Code 2024
+
+My Java solutions to Advent of Code 2024
