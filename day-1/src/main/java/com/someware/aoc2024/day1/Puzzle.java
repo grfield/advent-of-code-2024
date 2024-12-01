@@ -10,6 +10,7 @@ public class Puzzle {
     public static void main(String[] args) {
         LOGGER.info("AoC2024: Day 1");
         var runner = new PuzzleRunner(PUZZLE_INPUT);
-        LOGGER.info("Day 1 solution: {}", runner.calculateSolution());
+        LOGGER.info("Day 1 Part 1 solution: {}", runner.calculatePart1Solution());
+        LOGGER.info("Day 1 Part 2 solution: {}", runner.calculatePart2Solution());
     }
 }

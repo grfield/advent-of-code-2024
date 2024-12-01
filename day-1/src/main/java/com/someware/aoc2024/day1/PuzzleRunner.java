@@ -3,10 +3,9 @@ package com.someware.aoc2024.day1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PuzzleRunner {
     static final Logger LOGGER = LoggerFactory.getLogger(PuzzleRunner.class);
@@ -17,27 +16,27 @@ public class PuzzleRunner {
         this.filename = filename;
     }
 
-    public long calculateSolution() {
-        var list1 = new ArrayList<Integer>();
-        var list2 = new ArrayList<Integer>();
-        readLists(list1, list2);
-        LOGGER.info("Read two lists of {} numbers", list1.size());
-        return 0L;
+    public int calculatePart1Solution() {
+        var puzzleInput = new PuzzleInput(new ArrayList<>(), new ArrayList<>(), new HashMap<>());
+        try {
+            puzzleInput.read(filename);
+            LOGGER.info("Part I: Read puzzle input size of {} numbers", puzzleInput.size());
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+
+        return puzzleInput.sumOfDiffs();
     }
 
-    private void readLists(ArrayList<Integer> list1, ArrayList<Integer> list2) {
-
-        try (var file = new BufferedReader(
-                new FileReader(filename))) {
-
-            while (file.ready()) {
-                String[] firstValues = file.readLine().trim().split("\\s+");
-                list1.add(Integer.parseInt(firstValues[0]));
-                list2.add(Integer.parseInt(firstValues[1]));
-            }
-
-        } catch (IOException ex) {
-            LOGGER.error(ex.getMessage());
+    public int calculatePart2Solution() {
+        var puzzleInput = new PuzzleInput(new ArrayList<>(), new ArrayList<>(), new HashMap<>());
+        try {
+            puzzleInput.read(filename);
+            LOGGER.info("Part II: Read puzzle input size of {} numbers", puzzleInput.size());
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
         }
+
+        return puzzleInput.similarityScore();
     }
 }
