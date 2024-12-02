@@ -22,11 +22,17 @@ public class PuzzleRunner {
             LOGGER.error(ex.getMessage());
         }
 
-        return table.safeReportCount();
+        return table.safeReportCount(false);
     }
 
     public int calculatePart2Solution() {
+        final var table = new PuzzleTable();
+        try {
+            table.readFromFile(filename);
+        } catch (IOException ex) {
+            LOGGER.error(ex.getMessage());
+        }
 
-        return 0;
+        return table.safeReportCount(true);
     }
 }

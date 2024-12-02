@@ -17,6 +17,6 @@ class PuzzleRunnerTest {
     void calculatePart2Solution() {
         var runner = new PuzzleRunner("src/test/resources/test-input.txt" );
         var similarityScore = runner.calculatePart2Solution();
-        assertThat(similarityScore).isZero();
+        assertThat(similarityScore).isEqualTo(4);
     }
 }
