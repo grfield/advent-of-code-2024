@@ -37,7 +37,7 @@ public record PuzzleInput(
         return similarityScore;
     }
 
-    public void read(String filename) throws IOException {
+    public void readFromFile(String filename) throws IOException {
         try (var file = new BufferedReader(
                 new FileReader(filename))) {
 

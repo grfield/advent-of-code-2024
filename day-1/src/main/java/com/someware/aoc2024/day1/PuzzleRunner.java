@@ -19,8 +19,8 @@ public class PuzzleRunner {
     public int calculatePart1Solution() {
         var puzzleInput = new PuzzleInput(new ArrayList<>(), new ArrayList<>(), new HashMap<>());
         try {
-            puzzleInput.read(filename);
-            LOGGER.info("Part I: Read puzzle input size of {} numbers", puzzleInput.size());
+            puzzleInput.readFromFile(filename);
+            LOGGER.debug("Read puzzle input size of {} numbers", puzzleInput.size());
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
@@ -31,8 +31,8 @@ public class PuzzleRunner {
     public int calculatePart2Solution() {
         var puzzleInput = new PuzzleInput(new ArrayList<>(), new ArrayList<>(), new HashMap<>());
         try {
-            puzzleInput.read(filename);
-            LOGGER.info("Part II: Read puzzle input size of {} numbers", puzzleInput.size());
+            puzzleInput.readFromFile(filename);
+            LOGGER.debug("Read puzzle input size of {} numbers", puzzleInput.size());
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
         }
