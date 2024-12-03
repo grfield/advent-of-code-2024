@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 
 public class PuzzleRunner {
     static final Logger LOGGER = LoggerFactory.getLogger(PuzzleRunner.class);
-    static final String REGEX_PART1 = "mul\\(\\s*[0-9]{1,3}\\s*\\,\\s*[0-9]{1,3}\\s*\\)";
-    static final String REGEX_PART2 = "((don't\\(\\))|(do\\(\\))|mul\\(\\s*[0-9]{1,3}\\s*\\,\\s*[0-9]{1,3}\\s*\\))";
+    static final String REGEX_PART1 = "mul\\([0-9]{1,3}\\,[0-9]{1,3}\\)";
+    static final String REGEX_PART2 = "((don't\\(\\))|(do\\(\\))|mul\\([0-9]{1,3}\\,[0-9]{1,3}\\))";
 
     private final String filename;
 
@@ -26,6 +26,24 @@ public class PuzzleRunner {
         var commands = extractValidCommands(input, REGEX_PART1);
         var operators = parseCommandsToOperators(commands);
         return operators.stream().mapToInt(o -> o.left() * o.right()).sum();
+    }
+
+    public int calculatePart2Solution() throws IOException {
+        var input = readFileAsString();
+        var commands = extractValidCommands(input, REGEX_PART2);
+        var operators = parseCommandsToOperators(commands);
+
+        var sum = 0;
+        var enabled = true;
+        for (Operator operator : operators) {
+            switch (operator.func()) {
+                case "don't": enabled = false; break;
+                case "do": enabled = true; break;
+                case "mul": if (enabled) sum += operator.left() * operator.right(); break;
+                default: LOGGER.error("Invalid operator: {}", operator);
+            }
+        }
+        return sum;
     }
 
     private List<Operator> parseCommandsToOperators(List<String> commands) {
@@ -73,23 +91,5 @@ public class PuzzleRunner {
         }
 
         return builder.toString();
-    }
-
-    public int calculatePart2Solution() throws IOException {
-        var input = readFileAsString();
-        var commands = extractValidCommands(input, REGEX_PART2);
-        var operators = parseCommandsToOperators(commands);
-
-        var sum = 0;
-        var enabled = true;
-        for (Operator operator : operators) {
-            switch (operator.func()) {
-                case "don't": enabled = false; break;
-                case "do": enabled = true; break;
-                case "mul": if (enabled) sum += operator.left() * operator.right(); break;
-                default: LOGGER.error("Invalid operator: {}", operator);
-            }
-        }
-        return sum;
     }
 }
