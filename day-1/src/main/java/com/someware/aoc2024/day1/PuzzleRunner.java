@@ -16,26 +16,18 @@ public class PuzzleRunner {
         this.filename = filename;
     }
 
-    public int calculatePart1Solution() {
+    public int calculatePart1Solution() throws IOException {
         var puzzleInput = new PuzzleInput(new ArrayList<>(), new ArrayList<>(), new HashMap<>());
-        try {
-            puzzleInput.readFromFile(filename);
-            LOGGER.debug("Read puzzle input size of {} numbers", puzzleInput.size());
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
+        puzzleInput.readFromFile(filename);
+        LOGGER.debug("Read puzzle input size of {} numbers", puzzleInput.size());
 
         return puzzleInput.sumOfDiffs();
     }
 
-    public int calculatePart2Solution() {
+    public int calculatePart2Solution() throws IOException {
         var puzzleInput = new PuzzleInput(new ArrayList<>(), new ArrayList<>(), new HashMap<>());
-        try {
-            puzzleInput.readFromFile(filename);
-            LOGGER.debug("Read puzzle input size of {} numbers", puzzleInput.size());
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
+        puzzleInput.readFromFile(filename);
+        LOGGER.debug("Read puzzle input size of {} numbers", puzzleInput.size());
 
         return puzzleInput.similarityScore();
     }
