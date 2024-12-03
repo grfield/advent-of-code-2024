@@ -1,6 +1,6 @@
 # Advent Of Code 2024
 
-Progress on my Java solutions to Advent of Code 2024
+Progress on my Java solutions to Advent of Code 2024. I'm very out of practice, so I'm slow and won't be writing the best code, but I'll try to refactor it later. I'm doing it to have fun.
 
 | Day | Stars | Day | Stars | Day | Stars | Day | Stars | Day | Stars |
 |-----|--|-----|-------|-----|-------|-----|-------|-----|-------|
