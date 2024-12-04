@@ -42,7 +42,7 @@ public class PuzzleRunner {
         return count;
     }
 
-    public int calculatePart2Solution() throws IOException {
+    public int calculatePart2Solution()  {
         return 0;
     }
 
@@ -57,13 +57,8 @@ public class PuzzleRunner {
             int y = row;
             boolean found = true;
             for (char c : SEARCH_WORD.toCharArray()) {
-                if (x < 0 || x > gridWidth - 1 || y < 0 || y > gridHeight - 1)
+                if (x < 0 || x > gridWidth - 1 || y < 0 || y > gridHeight - 1 || c != grid[y][x])
                 {
-                    found = false;
-                    break;
-                }
-
-                if (grid[y][x] != c) {
                     found = false;
                     break;
                 }
