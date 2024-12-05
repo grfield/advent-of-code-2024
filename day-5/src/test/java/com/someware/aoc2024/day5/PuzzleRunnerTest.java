@@ -11,14 +11,14 @@ class PuzzleRunnerTest {
     @Test
     void calculatePart1Solution() throws IOException {
         var runner = new PuzzleRunner("src/test/resources/test-input.txt" );
-        var safeReports = runner.calculatePart1Solution();
-        assertThat(safeReports).isEqualTo(18);
+        var validJobsMiddlePageSum = runner.calculatePart1Solution();
+        assertThat(validJobsMiddlePageSum).isEqualTo(143);
     }
 
     @Test
     void calculatePart2Solution() throws IOException {
         var runner = new PuzzleRunner("src/test/resources/test-input.txt" );
-        var safeReports = runner.calculatePart2Solution();
-        assertThat(safeReports).isEqualTo(9);
+        var validJobsMiddlePageSum = runner.calculatePart2Solution();
+        assertThat(validJobsMiddlePageSum).isEqualTo(9);
     }
 }

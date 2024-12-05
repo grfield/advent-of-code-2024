@@ -1,12 +1,8 @@
 package com.someware.aoc2024.day5;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 
 public class PuzzleRunner {
-    static final Logger LOGGER = LoggerFactory.getLogger(PuzzleRunner.class);
     private final String filename;
 
     public PuzzleRunner(String filename) {
@@ -14,10 +10,18 @@ public class PuzzleRunner {
     }
 
     public int calculatePart1Solution() throws IOException {
-        return 0;
+        var printer = new Printer();
+        printer.readInputData(filename);
+        var validPrintJobs = printer.validJobs();
+        var totalOfMiddlePages = 0;
+        for (var printerJob : validPrintJobs) {
+            var middlePageNum = printerJob[(printerJob.length - 1) / 2];
+            totalOfMiddlePages += middlePageNum;
+        }
+        return totalOfMiddlePages;
     }
 
-    public int calculatePart2Solution() throws IOException {
+    public int calculatePart2Solution() {
         return 0;
     }
 }
