@@ -19,6 +19,6 @@ class PuzzleRunnerTest {
     void calculatePart2Solution() throws IOException {
         var runner = new PuzzleRunner("src/test/resources/test-input.txt" );
         var validJobsMiddlePageSum = runner.calculatePart2Solution();
-        assertThat(validJobsMiddlePageSum).isEqualTo(9);
+        assertThat(validJobsMiddlePageSum).isEqualTo(123);
     }
 }

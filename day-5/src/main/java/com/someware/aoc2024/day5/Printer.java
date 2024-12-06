@@ -3,17 +3,19 @@ package com.someware.aoc2024.day5;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Printer {
     private final List<Job> jobs;
     private final List<Rule> rules;
+    private final List<Job> validJobs;
+    private final List<Job> invalidJobs;
 
     public Printer() {
         this.rules = new ArrayList<>();
         this.jobs = new ArrayList<>();
+        this.validJobs = new ArrayList<>();
+        this.invalidJobs = new ArrayList<>();
     }
 
     public void readInputData(String filename) throws IOException {
@@ -56,9 +58,7 @@ public class Printer {
         }
     }
 
-    public List<int[]> validJobs() {
-        ArrayList<int[]> validJobs = new ArrayList<>();
-
+    public void validateJobs() {
         for (var job : this.jobs) {
             var validJob = true;
             for (var rule : this.rules) {
@@ -70,11 +70,28 @@ public class Printer {
                 }
             }
             if (validJob) {
-                validJobs.add(job.pagesNumbers());
+                validJobs.add(job);
+            } else {
+                invalidJobs.add(job);
             }
         }
+    }
 
+    public List<Job> getValidJobs() {
         return validJobs;
+    }
 
+    public List<Job> getInvalidJobs() {
+        return invalidJobs;
+    }
+
+    public Map<Integer, Set<Integer>> getRulesAggregatedByDeps() {
+        var ruleDict = new HashMap<Integer, Set<Integer>>();
+        for (var rule : this.rules) {
+            var dependentSet = ruleDict.getOrDefault(rule.left(), new HashSet<>());
+            ruleDict.put(rule.left(), dependentSet);
+            dependentSet.add(rule.right());
+        }
+        return ruleDict;
     }
 }
