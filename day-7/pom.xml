@@ -10,5 +10,6 @@
   </parent>
 
   <artifactId>day-7</artifactId>
+  <name>Day 7</name>
 
 </project>

@@ -16,7 +16,7 @@ class PuzzleRunnerTest {
     }
 
     @Test
-    void calculatePart2Solution() {
+    void calculatePart2Solution() throws IOException {
         var runner = new PuzzleRunner("src/test/resources/test-input.txt" );
         var validJobsMiddlePageSum = runner.calculatePart2Solution();
         assertThat(validJobsMiddlePageSum).isEqualTo(11387);
