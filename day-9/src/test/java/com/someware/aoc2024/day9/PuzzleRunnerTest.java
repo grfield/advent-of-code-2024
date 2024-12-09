@@ -26,6 +26,6 @@ class PuzzleRunnerTest {
     void calculatePart2Solution() throws IOException {
         var runner = new PuzzleRunner("src/test/resources/test-input.txt" );
         var answer = runner.calculatePart2Solution();
-        assertThat(answer).isZero();
+        assertThat(answer).isEqualTo(2858);
     }
 }

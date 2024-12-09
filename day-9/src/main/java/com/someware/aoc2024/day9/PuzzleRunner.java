@@ -48,7 +48,95 @@ public class PuzzleRunner {
     }
 
     public long calculatePart2Solution() throws IOException {
+        List<File> fileList = new ArrayList<>();
+        List<Free> freeList = new ArrayList<>();
+        var disk = generateBlocks(readFile());
+
+        // find all the files and free block locations
+        generateFileAndFreeLists(disk, fileList, freeList );
+
+        for (int i = 0; i < fileList.size(); i++) {
+            // find first free block
+            int freeIndex = findFirstFreeBlock(freeList, fileList.get(i).length());
+
+            if (freeIndex >= 0) {
+                // move file to new location
+                var freeBlockStart = freeList.get(freeIndex).start();
+                var fileId = fileList.get(i).fileId();
+                var fileLength = fileList.get(i).length();
+                fileList.set(i, new File(fileId, freeBlockStart, fileLength));
+
+                // update or delete free block
+                var newFreeBlockSize = freeList.get(freeIndex).length() - fileLength;
+                if (newFreeBlockSize > 0) {
+                    freeList.set(freeIndex, new Free(freeBlockStart + fileLength, newFreeBlockSize));
+                } else {
+                    freeList.remove(freeIndex);
+                }
+            }
+        }
+
+        long checksum = 0;
+
+        int[] finalDisk = new int[disk.blocks().length];
+        for (var file: fileList) {
+            for (int i = 0; i < file.length(); i++) {
+                var offset = file.start();
+                finalDisk[i+offset] = file.fileId();
+                checksum += (long) file.fileId() * (i + offset);
+            }
+        }
+        for (var free: freeList) {
+            for (int i = 0; i < free.length(); i++) {
+                var offset = free.start();
+                finalDisk[i+offset] = EMPTY_BLOCK;
+            }
+        }
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Compacted blocks {}", finalDisk);
+        }
+
+        return checksum;
+    }
+
+    /**
+     * Find first free block that can contain a file with specific size
+     */
+    private int findFirstFreeBlock(List<Free> freeList, long fileLength) {
+        for (int i = 0; i < freeList.size(); i++) {
+            if (freeList.get(i).length() >= fileLength) {
+                return i;
+            }
+        }
+
         return -1;
+    }
+
+    /**
+     * Build a file and free block list for the input blocks
+     */
+    private void generateFileAndFreeLists(Disk disk, List<File> fileList, List<Free> freeList) {
+        var blocks = disk.blocks();
+        int i = 0;
+        while (i < blocks.length) {
+            var blockId = blocks[i];
+            var len = 0;
+            var start = i;
+            if (blockId == EMPTY_BLOCK) {
+                while (i < blocks.length && blocks[i] == EMPTY_BLOCK) {
+                    len++;
+                    i++;
+                }
+                freeList.add(new Free(start, len));
+            } else {
+                while (i < blocks.length && blocks[i] == blockId) {
+                    len++;
+                    i++;
+                }
+                fileList.addFirst(new File(blockId, start, len));
+            }
+        }
     }
 
     private Disk generateBlocks(int[] values) {
