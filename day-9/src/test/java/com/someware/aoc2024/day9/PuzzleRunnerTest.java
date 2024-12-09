@@ -28,4 +28,11 @@ class PuzzleRunnerTest {
         var answer = runner.calculatePart2Solution();
         assertThat(answer).isEqualTo(2858);
     }
+
+    @Test
+    void calculatePart2Solution_1() throws IOException {
+        var runner = new PuzzleRunner("src/test/resources/test-input-part2-1.txt" );
+        var answer = runner.calculatePart2Solution();
+        assertThat(answer).isEqualTo(307);
+    }
 }

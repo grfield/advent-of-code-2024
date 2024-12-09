@@ -57,7 +57,7 @@ public class PuzzleRunner {
 
         for (int i = 0; i < fileList.size(); i++) {
             // find first free block
-            int freeIndex = findFirstFreeBlock(freeList, fileList.get(i).length());
+            int freeIndex = findFirstFreeBlock(freeList, fileList.get(i));
 
             if (freeIndex >= 0) {
                 // move file to new location
@@ -86,26 +86,16 @@ public class PuzzleRunner {
                 checksum += (long) file.fileId() * (i + offset);
             }
         }
-        for (var free: freeList) {
-            for (int i = 0; i < free.length(); i++) {
-                var offset = free.start();
-                finalDisk[i+offset] = EMPTY_BLOCK;
-            }
-        }
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Compacted blocks {}", finalDisk);
-        }
 
         return checksum;
     }
 
     /**
-     * Find first free block that can contain a file with specific size
+     * Find first free block that can contain a file with specific size and is before the file
      */
-    private int findFirstFreeBlock(List<Free> freeList, long fileLength) {
+    private int findFirstFreeBlock(List<Free> freeList, File file) {
         for (int i = 0; i < freeList.size(); i++) {
-            if (freeList.get(i).length() >= fileLength) {
+            if (freeList.get(i).start() < file.start() && freeList.get(i).length() >= file.length()) {
                 return i;
             }
         }
