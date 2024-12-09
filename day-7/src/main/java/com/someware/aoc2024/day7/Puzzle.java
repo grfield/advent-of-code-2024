@@ -10,7 +10,7 @@ public class Puzzle {
     static final String PUZZLE_INPUT = "day-7/src/main/resources/puzzle-input.txt";
 
     public static void main(String[] args) throws IOException {
-        LOGGER.info("AoC2024: Day 5");
+        LOGGER.info("AoC2024: Day 7");
         var runner = new PuzzleRunner(PUZZLE_INPUT);
         LOGGER.info("...part 1 solution: {}", runner.calculatePart1Solution());
         LOGGER.info("...part 2 solution: {}", runner.calculatePart2Solution());
