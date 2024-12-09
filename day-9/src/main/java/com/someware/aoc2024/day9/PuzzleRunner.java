@@ -11,6 +11,7 @@ import java.util.List;
 
 public class PuzzleRunner {
     static final Logger LOGGER = LoggerFactory.getLogger(PuzzleRunner.class);
+    public static final int EMPTY_BLOCK = -1;
     private final String filename;
 
     public PuzzleRunner(String filename) {
@@ -26,19 +27,20 @@ public class PuzzleRunner {
         var leftIdx = 0;
         var rightIdx = blocks.length - 1;
         while (leftIdx < disk.filledCount()) {
-            if (blocks[leftIdx] == '.' && leftIdx != rightIdx) {
-                while (blocks[rightIdx] == '.') {
+            if (blocks[leftIdx] == EMPTY_BLOCK && leftIdx != rightIdx) {
+                while (blocks[rightIdx] == EMPTY_BLOCK) {
                     rightIdx--;
                 }
                 blocks[leftIdx] = blocks[rightIdx];
-                blocks[rightIdx] = '.';
+                blocks[rightIdx] = EMPTY_BLOCK;
             }
-            var value = leftIdx * (blocks[leftIdx] - '0');
+            var value = leftIdx * blocks[leftIdx];
             LOGGER.debug("Adding {} to checksum of {}", value, checksum);
             checksum += value;
             leftIdx++;
+
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Compacted block {}", charArrayAsString(blocks));
+                LOGGER.debug("Compacted block {}", blocks);
             }
         }
 
@@ -50,35 +52,36 @@ public class PuzzleRunner {
     }
 
     private Disk generateBlocks(int[] values) {
-        List<Character> blocks = new ArrayList<>();
+        List<Integer> blocks = new ArrayList<>();
         int filledCount = 0;
-        var index = 0;
+        var filedId = 0;
         // add data blocks
         for (int i = 0; i < values.length; i += 2){
             int dataCount = values[i];
             filledCount += dataCount;
             for (int j = 0; j < dataCount; j++) {
-                blocks.add((char) (index + '0'));
+                blocks.add(filedId);
             }
-            index++;
+            filedId++;
 
             // add space
             if (i < values.length - 1) {
                 int spaceCount = values[i+1];
                 for (int j = 0; j < spaceCount; j++) {
-                    blocks.add('.');
+                    blocks.add(EMPTY_BLOCK);
                 }
             }
 
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("{}", charArrayAsString(blocks));
+                LOGGER.debug("{}", blocks);
             }
         }
 
-        return new Disk(blocks.stream()
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString()
-                .toCharArray(), filledCount);
+        int[] data = new int[blocks.size()];
+        for (var i = 0; i < blocks.size(); i++) {
+            data[i] = blocks.get(i);
+        }
+        return new Disk(data, filledCount);
     }
 
     private int[] readFile() throws IOException {
@@ -91,21 +94,6 @@ public class PuzzleRunner {
 
             return convertNumberStringToIntValues(str);
         }
-    }
-
-
-    private String charArrayAsString(List<Character> blocks) {
-        StringBuilder builder = new StringBuilder();
-        blocks.forEach(builder::append);
-        return builder.toString();
-    }
-
-    private String charArrayAsString(char[] blocks) {
-        StringBuilder builder = new StringBuilder();
-        for (char block : blocks) {
-            builder.append(block);
-        }
-        return builder.toString();
     }
 
     private int[] convertNumberStringToIntValues(String s) {
