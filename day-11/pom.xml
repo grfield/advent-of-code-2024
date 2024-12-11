@@ -9,7 +9,6 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>day-6</artifactId>
-  <name>Day 06</name>
-
+  <artifactId>day-11</artifactId>
+  <name>Day 11</name>
 </project>
