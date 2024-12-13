@@ -46,6 +46,8 @@ public class PuzzleRunner {
     }
 
     public long calculatePart2Solution(int blinkCount) throws IOException {
+        long startTime = System.nanoTime();
+
         List<Long> stones = readFile();
         Map<CountSteps, Long> cache = new HashMap<>();
 
@@ -54,6 +56,9 @@ public class PuzzleRunner {
             sum += countStones(num, blinkCount, cache);
         }
 
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        LOGGER.info("Processing for part 2 took {} ms", duration / 1000000);
         LOGGER.info("Cache used for part 2 contains {} entries", cache.size());
         return sum;
     }

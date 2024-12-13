@@ -48,6 +48,8 @@ public class PuzzleRunner {
     }
 
     public long calculatePart2Solution() throws IOException {
+        long startTime = System.nanoTime();
+
         List<File> fileList = new ArrayList<>();
         List<Free> freeList = new ArrayList<>();
         var disk = generateBlocks(readFile());
@@ -86,6 +88,10 @@ public class PuzzleRunner {
                 checksum += (long) file.fileId() * (i + offset);
             }
         }
+
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        LOGGER.info("Processing took {} ms", duration / 1000000);
 
         return checksum;
     }
