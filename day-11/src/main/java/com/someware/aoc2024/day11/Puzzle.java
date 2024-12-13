@@ -12,7 +12,7 @@ public class Puzzle {
     public static void main(String[] args) throws IOException {
         LOGGER.info("AoC2024: Day 11");
         var runner = new PuzzleRunner(PUZZLE_INPUT);
-        LOGGER.info("...part 1 solution: {}", runner.calculatePart1Solution());
-        LOGGER.info("...part 2 solution: {}", runner.calculatePart2Solution());
+        LOGGER.info("...part 1 solution: {}", runner.calculatePart1Solution(25));
+        LOGGER.info("...part 2 solution: {}", runner.calculatePart2Solution(75));
     }
 }
