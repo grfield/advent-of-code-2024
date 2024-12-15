@@ -20,7 +20,7 @@ public class PuzzleRunner {
 
     public long calculatePart1Solution() throws IOException {
 
-        var disk = generateBlocks(readFile());
+        var disk = generateBlocks(readFileAsIntArray());
         var blocks = disk.blocks();
 
         var checksum = 0L;
@@ -52,11 +52,21 @@ public class PuzzleRunner {
 
         List<File> fileList = new ArrayList<>();
         List<Free> freeList = new ArrayList<>();
-        var disk = generateBlocks(readFile());
+        var disk = generateBlocks(readFileAsIntArray());
 
-        // find all the files and free block locations
         generateFileAndFreeLists(disk, fileList, freeList );
+        moveFilesIntoFreeBlockLeftToRight(fileList, freeList);
 
+        long checksum = checkSumFileBlocks(disk, fileList);
+
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        LOGGER.info("Processing took {} ms", duration / 1000000);
+
+        return checksum;
+    }
+
+    private void moveFilesIntoFreeBlockLeftToRight(List<File> fileList, List<Free> freeList) {
         for (int i = 0; i < fileList.size(); i++) {
             // find first free block
             int freeIndex = findFirstFreeBlock(freeList, fileList.get(i));
@@ -77,7 +87,9 @@ public class PuzzleRunner {
                 }
             }
         }
+    }
 
+    private static long checkSumFileBlocks(Disk disk, List<File> fileList) {
         long checksum = 0;
 
         int[] finalDisk = new int[disk.blocks().length];
@@ -88,10 +100,6 @@ public class PuzzleRunner {
                 checksum += (long) file.fileId() * (i + offset);
             }
         }
-
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime);
-        LOGGER.info("Processing took {} ms", duration / 1000000);
 
         return checksum;
     }
@@ -110,7 +118,8 @@ public class PuzzleRunner {
     }
 
     /**
-     * Build a file and free block list for the input blocks
+     * Build a file and free block list for the input blocks. File list should be in descending order
+     * by fileID and the free list ascending, left to right
      */
     private void generateFileAndFreeLists(Disk disk, List<File> fileList, List<Free> freeList) {
         var blocks = disk.blocks();
@@ -130,6 +139,8 @@ public class PuzzleRunner {
                     len++;
                     i++;
                 }
+                // make sure the file list is ordered by fileID descending
+                // by adding to the front of array
                 fileList.addFirst(new File(blockId, start, len));
             }
         }
@@ -168,7 +179,7 @@ public class PuzzleRunner {
         return new Disk(data, filledCount);
     }
 
-    private int[] readFile() throws IOException {
+    private int[] readFileAsIntArray() throws IOException {
         String str = "";
         try (var file = new BufferedReader(
                 new FileReader(filename))) {
