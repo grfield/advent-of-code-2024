@@ -55,7 +55,7 @@ public class PuzzleRunner {
         var disk = generateBlocks(readFileAsIntArray());
 
         generateFileAndFreeLists(disk, fileList, freeList );
-        moveFilesIntoFreeBlockLeftToRight(fileList, freeList);
+        moveFilesIntoFreeBlockRightToLeft(fileList, freeList);
 
         long checksum = checkSumFileBlocks(disk, fileList);
 
@@ -66,7 +66,7 @@ public class PuzzleRunner {
         return checksum;
     }
 
-    private void moveFilesIntoFreeBlockLeftToRight(List<File> fileList, List<Free> freeList) {
+    private void moveFilesIntoFreeBlockRightToLeft(List<File> fileList, List<Free> freeList) {
         for (int i = 0; i < fileList.size(); i++) {
             // find first free block
             int freeIndex = findFirstFreeBlock(freeList, fileList.get(i));
